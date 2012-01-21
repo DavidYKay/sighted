@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package com.example.android.apis.graphics;
+package com.davidykay.sighted;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -27,7 +31,7 @@ import android.util.Config;
 import android.util.Log;
 import android.view.View;
 
-public class Compass extends GraphicsActivity {
+public class Compass extends Activity {
 
   private static final String TAG = "Compass";
 
@@ -38,9 +42,10 @@ public class Compass extends GraphicsActivity {
 
   private final SensorEventListener mListener = new SensorEventListener() {
     public void onSensorChanged(SensorEvent event) {
-      if (Config.LOGD)
+      if (Config.LOGD) {
         Log.d(TAG, "sensorChanged (" + event.values[0] + ", " + event.values[1]
             + ", " + event.values[2] + ")");
+      }
       mValues = event.values;
       if (mView != null) {
         mView.invalidate();
@@ -62,8 +67,9 @@ public class Compass extends GraphicsActivity {
 
   @Override
   protected void onResume() {
-    if (Config.LOGD)
+    if (Config.LOGD) {
       Log.d(TAG, "onResume");
+    }
     super.onResume();
 
     mSensorManager.registerListener(mListener, mSensor,
@@ -72,8 +78,9 @@ public class Compass extends GraphicsActivity {
 
   @Override
   protected void onStop() {
-    if (Config.LOGD)
+    if (Config.LOGD) {
       Log.d(TAG, "onStop");
+    }
     mSensorManager.unregisterListener(mListener);
     super.onStop();
   }
