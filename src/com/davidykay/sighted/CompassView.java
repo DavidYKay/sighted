@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.AttributeSet;
 import android.view.View;
 
 public class CompassView extends View {
@@ -15,11 +16,20 @@ public class CompassView extends View {
   private Path mPath = createArrowPath();
   private boolean mAnimate;
   private long mNextTime;
+  
+  
 
-  public CompassView(CompassDataSource dataSource, Context context) {
+//  public CompassView(Context context, AttributeSet attrs, int defStyle) {
+//    super(context, attrs, defStyle);
+//    // TODO Auto-generated constructor stub
+//  }
+
+  public CompassView(Context context, AttributeSet attrs) {
+    super(context, attrs);    
+  }
+
+  public CompassView(Context context) {
     super(context);
-
-    mDataSource = dataSource;
   }
 
   private Path createArrowPath() {
@@ -51,8 +61,9 @@ public class CompassView extends View {
 
     canvas.translate(cx, cy);
     //if (mDataSource.getRotation() != null) {
+    if (mDataSource != null) {
       canvas.rotate(mDataSource.getRotation());
-    //}
+    }
     canvas.drawPath(mPath, mPaint);
   }
 
@@ -66,5 +77,9 @@ public class CompassView extends View {
   protected void onDetachedFromWindow() {
     mAnimate = false;
     super.onDetachedFromWindow();
+  }
+
+  public void setDataSource(CompassDataSource dataSource) {
+    mDataSource = dataSource;    
   }
 }

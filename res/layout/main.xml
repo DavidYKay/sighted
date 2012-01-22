@@ -4,9 +4,24 @@
   android:layout_height="fill_parent"
   android:orientation="vertical" >
 
-  <TextView
+  <com.davidykay.sighted.CompassView
+    android:id="@+id/compass"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/hello" />
+    android:layout_height="0px"
+    android:layout_weight="90"
+    />
 
+  <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="0px"
+    android:layout_weight="10"
+    android:orientation="horizontal" >
+
+    <Button
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:text="@string/button_lock_direction"
+      />
+
+  </LinearLayout>
 </LinearLayout>

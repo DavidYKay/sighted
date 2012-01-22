@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, SightedActivity!</string>
-    <string name="app_name">Sighted</string>
+  <string name="hello">Hello World, SightedActivity!</string>
+  <string name="push_me">Push Me!</string>
+  <string name="app_name">Sighted</string>
+  
+  <string name="button_lock">Lock</string>
+  <string name="button_lock_direction">Lock Direction</string>
+  <string name="button_lock_range">Lock Range</string>
 
 </resources>
