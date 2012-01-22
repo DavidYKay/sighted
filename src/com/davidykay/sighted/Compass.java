@@ -31,13 +31,13 @@ import android.util.Config;
 import android.util.Log;
 import android.view.View;
 
-public class Compass extends Activity {
+public class Compass extends Activity implements CompassDataSource {
 
   private static final String TAG = "Compass";
 
   private SensorManager mSensorManager;
   private Sensor mSensor;
-  private SampleView mView;
+  private CompassView mView;
   private float[] mValues;
 
   private final SensorEventListener mListener = new SensorEventListener() {
@@ -61,7 +61,7 @@ public class Compass extends Activity {
     super.onCreate(icicle);
     mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-    mView = new SampleView(this);
+    mView = new CompassView(this, this);
     setContentView(mView);
   }
 
@@ -84,22 +84,36 @@ public class Compass extends Activity {
     mSensorManager.unregisterListener(mListener);
     super.onStop();
   }
+  
+  @Override
+  public float getRotation() {
+    return -mValues[0];
+  }
 
-  private class SampleView extends View {
+  private class CompassView extends View {
+    private CompassDataSource mDataSource;
+
     private Paint mPaint = new Paint();
-    private Path mPath = new Path();
+    private Path mPath = createArrowPath();
     private boolean mAnimate;
     private long mNextTime;
 
-    public SampleView(Context context) {
+    public CompassView(CompassDataSource dataSource, Context context) {
       super(context);
 
+      mDataSource = dataSource;
+    }
+
+    private Path createArrowPath() {
+      Path path = new Path();
       // Construct a wedge-shaped path
-      mPath.moveTo(0, -50);
-      mPath.lineTo(-20, 60);
-      mPath.lineTo(0, 50);
-      mPath.lineTo(20, 60);
-      mPath.close();
+      path.moveTo(0, -50);
+      path.lineTo(-20, 60);
+      path.lineTo(0, 50);
+      path.lineTo(20, 60);
+      path.close();
+
+      return path;
     }
 
     @Override
@@ -119,7 +133,7 @@ public class Compass extends Activity {
 
       canvas.translate(cx, cy);
       if (mValues != null) {
-        canvas.rotate(-mValues[0]);
+        canvas.rotate(mDataSource.getRotation());
       }
       canvas.drawPath(mPath, mPaint);
     }
